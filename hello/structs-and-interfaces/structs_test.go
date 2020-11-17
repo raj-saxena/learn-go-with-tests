@@ -35,4 +35,17 @@ func TestArea(t *testing.T) {
 		checkArea(t, circle, want)
 	})
 
+	// table tests
+	areaTests := []struct {
+		s Shape
+		w float64
+	}{
+		{Rectangle{Width: 12, Height: 6}, 72.0},
+		{Circle{Radius: 10}, 314.1592653589793},
+		{Triangle{Height: 12, Base: 6}, 36.0},
+	}
+
+	for _, tt := range areaTests {
+		checkArea(t, tt.s, tt.w)
+	}
 }
