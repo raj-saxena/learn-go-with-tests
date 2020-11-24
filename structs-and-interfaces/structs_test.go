@@ -18,7 +18,7 @@ func TestArea(t *testing.T) {
 		t.Helper()
 		got := s.Area()
 		if got != want {
-			t.Errorf("got %g, want %g", got, want)
+			t.Errorf("%#v got %g, want %g", s, got, want)
 		}
 	}
 
