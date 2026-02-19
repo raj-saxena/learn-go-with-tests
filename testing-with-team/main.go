@@ -8,7 +8,7 @@ func main() {
 
 func task1() {
 	ps := NewPostService("https://jsonplaceholder.typicode.com")
-	posts := ps.GetPost(1)
+	posts := ps.GetBy(1)
 	log.Println("posts:", posts)
 
 	p := Post{
@@ -17,6 +17,6 @@ func task1() {
 		Body:   "",
 	}
 
-	ps.CreatePost(p)
+	ps.Create(p)
 	log.Println("Created post:", p)
 }

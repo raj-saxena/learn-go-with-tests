@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -22,10 +23,10 @@ func NewPostService(baseUrl string) *PostService {
 	return &PostService{baseUrl: baseUrl}
 }
 
-func (p *PostService) GetPost(id int) Post {
+func (p *PostService) GetBy(id int) Post {
 	resp, err := http.Get(p.baseUrl + "/posts/" + strconv.Itoa(id))
 	if err != nil {
-		log.Fatal("PostService.GetPost: ", err)
+		log.Fatal("PostService.GetBy: ", err)
 	}
 	defer resp.Body.Close()
 
@@ -38,6 +39,14 @@ func (p *PostService) GetPost(id int) Post {
 	return post
 }
 
-func (*PostService) CreatePost(p Post) Post {
-	return p
+func (p *PostService) Create(post Post) (Post, error) {
+	body, _ := json.Marshal(post)
+
+	resp, _ := http.Post(p.baseUrl+"/posts", "application/json", bytes.NewBuffer(body))
+	defer resp.Body.Close()
+
+	created := Post{}
+	_ = json.NewDecoder(resp.Body).Decode(&created)
+
+	return created, nil
 }
